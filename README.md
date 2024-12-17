@@ -25,3 +25,11 @@ main.plugins.clock.time_format = "%I:%M%p"
 ### The plugin doesn't work!
 
 Bother me in my [discord server](https://discord.gg/VuhvYRz) (I am Logandev\_)
+
+### Not showing local time!
+
+SSH into your Pwnagotchi and set your time zone.
+
+```
+sudo timedatectl set-timezone <your_time_zone>
+```
