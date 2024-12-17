@@ -16,23 +16,18 @@ class PwnClock(plugins.Plugin):
         logging.info("Pwnagotchi Clock Plugin loaded.")
 
     def on_ui_setup(self, ui):
-        emenable = False
-
-        with open('/etc/pwnagotchi/config.toml', 'r') as f:
-            config = f.read().splitlines()
-
-        if "main.plugins.memtemp.enabled = true" in config:
-            memenable = True
-            logging.info(
-                "Pwnagotchi Clock Plugin: memtemp is enabled")
-
-        if ui.is_waveshare_v2():
-            pos = (130, 80) if memenable else (200, 80)
-            ui.add_element('clock', LabeledValue(color=BLACK, label='', value='-/-/-\n-:--',
-                                                 position=pos,
-                                                 label_font=fonts.Small, text_font=fonts.Small))
+        ui.add_element('date', LabeledValue(color=BLACK, label='', value='',
+                                                position=(int(self.options["date_x_coord"]),
+                                                            int(self.options["date_y_coord"])),
+                                                label_font=fonts.Small, text_font=fonts.Small))
+        ui.add_element('time', LabeledValue(color=BLACK, label='', value='',
+                                                position=(int(self.options["time_x_coord"]),
+                                                            int(self.options["time_y_coord"])),
+                                                label_font=fonts.Small, text_font=fonts.Small))
 
     def on_ui_update(self, ui):
-        now = datetime.datetime.now()
-        time_rn = now.strftime("%m/%d/%y\n%I:%M%p")
-        ui.set('clock', time_rn)
+        now = datetime.datetime.today()
+        datenow = now.strftime(self.options["date_format"])
+        timenow = now.strftime(self.options["time_format"])
+        ui.set('date', datenow)
+        ui.set('time', timenow)
